@@ -25,6 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
               'assets/ic_instagram.svg',
               color: primaryColor,
               height: 64,
+            ),
+            const SizedBox(
+              height: 64,
             )
           ],
         ),

@@ -20,6 +20,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Flexible(
+              flex: 2,
+              child: Container(),
+            ),
             // svg image
             SvgPicture.asset(
               'assets/ic_instagram.svg',
@@ -29,6 +33,10 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 64,
             )
+            // text field input for email
+            // text field input for password
+            // button login
+            // Transition to signing up
           ],
         ),
       )),

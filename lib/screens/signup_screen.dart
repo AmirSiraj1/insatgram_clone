@@ -49,6 +49,27 @@ class _SignupScreenState extends State<SignupScreen> {
             const SizedBox(
               height: 64,
             ),
+            // circular widget to accept and show selected files
+            Stack(
+              children: [
+                const CircleAvatar(
+                  radius: 64,
+                  backgroundColor: Colors.blue,
+                ),
+                Positioned(
+                    bottom: -10,
+                    left: 80,
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.add_a_photo,
+                        )))
+              ],
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            // text field input for username
             TextFieldInput(
                 textEditingController: _usernameController,
                 hintText: 'Enter your user name',

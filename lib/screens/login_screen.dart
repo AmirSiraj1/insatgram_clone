@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insatgram_clone/resources/auth_method.dart';
+import 'package:insatgram_clone/screens/signup_screen.dart';
 import 'package:insatgram_clone/utils/colors.dart';
 import 'package:insatgram_clone/utils/utils.dart';
 import 'package:insatgram_clone/widgets/text_field_input.dart';
@@ -38,6 +39,14 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  void navigateToSignup() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SignupScreen(),
+      ),
+    );
   }
 
   @override
@@ -120,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: const Text("Don't have an account?"),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: navigateToSignup,
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: const Text(

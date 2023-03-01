@@ -57,6 +57,14 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
+  void navigateToLogin() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SignupScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,11 +186,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: const Text("Don't have an account?"),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: navigateToLogin,
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: const Text(
-                      "Sign up",
+                      "Log In",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),

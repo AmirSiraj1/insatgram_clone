@@ -44,5 +44,6 @@ class AuthMethods {
     } catch (err) {
       res = err.toString();
     }
+    return res;
   }
 }

@@ -18,13 +18,15 @@ class AuthMethods {
     String res = 'some error';
     try {
       if (email.isNotEmpty ||
-          password.isNotEmpty ||
-          username.isNotEmpty ||
-          bio.isNotEmpty) {
+              password.isNotEmpty ||
+              username.isNotEmpty ||
+              bio.isNotEmpty
+          // file != null
+          ) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
         // add user to database
-        _firestore.collection('users').doc(cred.user!.uid).set({
+        await _firestore.collection('users').doc(cred.user!.uid).set({
           'username': username,
           'uid': cred.user!.uid,
           'email': email,

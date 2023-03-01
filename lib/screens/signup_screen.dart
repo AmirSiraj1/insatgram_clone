@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:insatgram_clone/resources/auth_method.dart';
+import 'package:insatgram_clone/utils/utils.dart';
 
 import '../utils/colors.dart';
 import '../widgets/text_field_input.dart';
@@ -17,7 +20,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
-
+  Uint8List? _image;
   @override
   void dispose() {
     super.dispose();
@@ -25,6 +28,13 @@ class _SignupScreenState extends State<SignupScreen> {
     _passwordController.dispose();
     _bioController.dispose();
     _usernameController.dispose();
+  }
+
+  void selectImage() async {
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
   }
 
   @override
@@ -53,15 +63,20 @@ class _SignupScreenState extends State<SignupScreen> {
             // circular widget to accept and show selected files
             Stack(
               children: [
-                const CircleAvatar(
-                  radius: 64,
-                  backgroundColor: Colors.blue,
-                ),
+                _image != null
+                    ? CircleAvatar(
+                        radius: 64,
+                        backgroundImage: MemoryImage(_image!),
+                      )
+                    : const CircleAvatar(
+                        radius: 64,
+                        backgroundImage: AssetImage('assets/profile.png'),
+                      ),
                 Positioned(
                     bottom: -10,
                     left: 80,
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: selectImage,
                         icon: const Icon(
                           Icons.add_a_photo,
                         )))

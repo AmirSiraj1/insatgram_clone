@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:insatgram_clone/resources/storage_methods.dart';
 
 // we are in Time 1:05:36
 
@@ -26,6 +27,9 @@ class AuthMethods {
           file != null) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
+
+        String photoUrl = await StorageMethods()
+            .uploadImageToStorage('profilePics', file, false);
         // add user to database
         await _firestore.collection('users').doc(cred.user!.uid).set({
           'username': username,
@@ -33,7 +37,8 @@ class AuthMethods {
           'email': email,
           'bio': bio,
           'followers': [],
-          'following': []
+          'following': [],
+          'photoUrl': photoUrl
         });
         res = 'Success';
       }

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:insatgram_clone/models/user.dart';
+import 'package:provider/provider.dart';
 
 class MobileScreenLayout extends StatelessWidget {
   const MobileScreenLayout({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    User user = Provider.of(context).getUser;
+    return Scaffold(
       body: Center(
-        child: Text("This is mobile"),
+        child: Text(user.username),
       ),
     );
   }

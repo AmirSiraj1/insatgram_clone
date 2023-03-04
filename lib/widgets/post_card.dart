@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:insatgram_clone/utils/colors.dart';
 
 class PostCard extends StatelessWidget {
@@ -14,6 +11,7 @@ class PostCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
+          //*****************HEDER SECTION*************** */
           Container(
             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16)
                 .copyWith(right: 0),
@@ -66,6 +64,47 @@ class PostCard extends StatelessWidget {
                 )
               ],
             ),
+          ),
+          //*******************************IMAGE SECTION******************** */
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.35,
+            width: double.infinity,
+            child: Image.asset(
+              'assets/profile.png',
+              fit: BoxFit.fill,
+            ),
+          ),
+          //**********LIKE COMENT SECTION***** */
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.comment_outlined,
+                  color: Colors.red,
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.send,
+                  color: Colors.red,
+                ),
+              ),
+              Expanded(
+                  child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.bookmark_border))))
+            ],
           )
         ],
       ),

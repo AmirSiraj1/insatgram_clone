@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:insatgram_clone/providers/user_provider.dart';
-import 'package:insatgram_clone/utils/dimensions.dart';
+import 'package:insatgram_clone/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 
 class ResponsiveLayout extends StatefulWidget {

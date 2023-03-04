@@ -2,18 +2,18 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:insatgram_clone/models/user.dart' as model;
+import 'package:insatgram_clone/models/my_user.dart';
 import 'package:insatgram_clone/resources/storage_methods.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<model.User> getUserDetails() async {
-    model.User currentUser = _auth.currentUser! as model.User;
+  Future<MyUser> getUserDetails() async {
+    MyUser currentUser = _auth.currentUser! as MyUser;
     DocumentSnapshot snap =
         await _firestore.collection('users').doc(currentUser.uid).get();
-    return model.User.fromSnap(snap);
+    return MyUser.fromSnap(snap);
   }
 
   // sign up user
@@ -36,7 +36,7 @@ class AuthMethods {
         String photoUrl = await StorageMethods()
             .uploadImageToStorage('profilePics', file, false);
         // add user to database
-        model.User user = model.User(
+        MyUser user = MyUser(
             email: email,
             uid: cred.user!.uid,
             photoUrl: photoUrl,

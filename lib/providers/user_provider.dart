@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
-import 'package:insatgram_clone/models/user.dart';
+import 'package:insatgram_clone/models/my_user.dart';
 import 'package:insatgram_clone/resources/auth_method.dart';
 
 class UserProvider with ChangeNotifier {
-  User? _user;
+  MyUser? _user;
   final AuthMethods _authMethods = AuthMethods();
 
-  User get getUser => _user!;
+  MyUser get getUser => _user!;
 
   Future<void> refreshUser() async {
-    User user = await _authMethods.getUserDetails();
+    MyUser user = await _authMethods.getUserDetails();
     _user = user;
     notifyListeners();
   }

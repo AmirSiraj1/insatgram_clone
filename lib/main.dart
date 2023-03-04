@@ -10,7 +10,7 @@ import 'package:insatgram_clone/screens/login_screen.dart';
 import 'package:insatgram_clone/utils/colors.dart';
 import 'package:provider/provider.dart';
 
-// we are in Time 2:21:36
+// we are in Time 4:10:00
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

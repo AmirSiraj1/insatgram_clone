@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insatgram_clone/utils/colors.dart';
+import 'package:intl/intl.dart';
 
 class PostCard extends StatelessWidget {
   final snap;
@@ -121,7 +122,7 @@ class PostCard extends StatelessWidget {
                         .bodyText2!
                         .copyWith(fontWeight: FontWeight.w800),
                     child: Text(
-                      '1,2341 likes',
+                      '${snap['likes'].length} likes',
                       style: Theme.of(context).textTheme.bodyText2,
                     )),
                 Container(
@@ -135,9 +136,8 @@ class PostCard extends StatelessWidget {
                           text: snap['username'],
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        const TextSpan(
-                          text:
-                              ' Et lorem consetetur sed takimata et elitr diam eos dolores, ipsum ut consetetur aliquyam dolor amet sadipscing ipsum magna vero,.',
+                        TextSpan(
+                          text: snap['discription'],
                         )
                       ],
                     ),
@@ -155,9 +155,11 @@ class PostCard extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: const Text(
-                    '22/12/2023',
-                    style: TextStyle(fontSize: 16, color: secondaryColor),
+                  child: Text(
+                    DateFormat.yMMM().format(
+                      snap['datePublished'].toDate(),
+                    ),
+                    style: const TextStyle(fontSize: 16, color: secondaryColor),
                   ),
                 ),
               ],

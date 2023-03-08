@@ -122,7 +122,7 @@ class _PostCardState extends State<PostCard> {
           Row(
             children: [
               LikeAnimation(
-                isAnimating: widget.snap['likes'].containes(user.uid),
+                isAnimating: widget.snap['likes'].contains(user.uid),
                 smalLike: true,
                 child: IconButton(
                   onPressed: () {},

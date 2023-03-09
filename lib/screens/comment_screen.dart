@@ -1,27 +1,56 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:insatgram_clone/resources/firestore_methodes.dart';
 import 'package:insatgram_clone/utils/colors.dart';
+import 'package:provider/provider.dart';
 
+import '../models/my_user.dart';
+import '../providers/user_provider.dart';
 import '../widgets/comment_card.dart';
 
 class CommentsScreen extends StatefulWidget {
-  const CommentsScreen({super.key});
+  final snap;
+  const CommentsScreen({super.key, required this.snap});
 
   @override
   State<CommentsScreen> createState() => _CommentsScreenState();
 }
 
 class _CommentsScreenState extends State<CommentsScreen> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final MyUser user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         centerTitle: false,
         title: const Text('Comments'),
       ),
-      body: const CommentCard(),
+      body: StreamBuilder(
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return ListView.builder(
+            itemCount: (snapshot.data! as dynamic).docs.length,
+            itemBuilder: (context, index) => CommentCard(
+                snap: (snapshot.data! as dynamic).docs[index].data()),
+          );
+        },
+        stream: FirebaseFirestore.instance
+            .collection('posts')
+            .doc(widget.snap['postId'])
+            .collection('comments')
+            .snapshots(),
+      ),
       bottomNavigationBar: SafeArea(
           child: Container(
         height: kToolbarHeight,
@@ -31,20 +60,28 @@ class _CommentsScreenState extends State<CommentsScreen> {
         padding: const EdgeInsets.only(left: 16, right: 8),
         child: Row(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 18,
-              backgroundColor: Colors.amber,
+              backgroundImage: NetworkImage(user.photoUrl),
             ),
-            const Expanded(
+            Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 16, right: 8),
+                padding: const EdgeInsets.only(left: 16, right: 8),
                 child: TextField(
-                  decoration: InputDecoration(hintText: 'comment as username '),
+                  controller: _controller,
+                  decoration:
+                      InputDecoration(hintText: 'comment as ${user.username} '),
                 ),
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () async {
+                await FirestoreMethodes().postComment(widget.snap['postId'],
+                    _controller.text, user.uid, user.username, user.photoUrl);
+                setState(() {
+                  _controller.text = '';
+                });
+              },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                 child: const Text(

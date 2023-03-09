@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insatgram_clone/models/my_user.dart';
 import 'package:insatgram_clone/providers/user_provider.dart';
+import 'package:insatgram_clone/resources/firestore_methodes.dart';
 import 'package:insatgram_clone/utils/colors.dart';
 import 'package:insatgram_clone/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
@@ -81,7 +82,9 @@ class _PostCardState extends State<PostCard> {
           ),
           //*******************************IMAGE SECTION******************** */
           GestureDetector(
-            onDoubleTap: () {
+            onDoubleTap: () async {
+              await FirestoreMethodes().likePost(
+                  widget.snap['postId'], user.uid, widget.snap['likes']);
               setState(() {
                 isLikeAnimating = true;
               });

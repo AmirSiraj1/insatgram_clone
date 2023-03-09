@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:insatgram_clone/models/my_user.dart';
 import 'package:insatgram_clone/providers/user_provider.dart';
@@ -18,9 +19,26 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
+  int comments = 0;
   @override
   void initState() {
     super.initState();
+    getComments();
+  }
+
+  void getComments() async {
+    try {
+      QuerySnapshot snap = await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(widget.snap['postId'])
+          .collection('comments')
+          .get();
+
+      comments = snap.docs.length;
+    } catch (e) {
+      rethrow;
+    }
+    setState(() {});
   }
 
   @override
@@ -216,9 +234,10 @@ class _PostCardState extends State<PostCard> {
                   onTap: () {},
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: const Text(
-                      'view all 200 comments',
-                      style: TextStyle(fontSize: 16, color: secondaryColor),
+                    child: Text(
+                      'view all $comments comments',
+                      style:
+                          const TextStyle(fontSize: 16, color: secondaryColor),
                     ),
                   ),
                 ),

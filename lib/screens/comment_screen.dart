@@ -49,6 +49,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
             .collection('posts')
             .doc(widget.snap['postId'])
             .collection('comments')
+            .orderBy('datePublished', descending: true)
             .snapshots(),
       ),
       bottomNavigationBar: SafeArea(

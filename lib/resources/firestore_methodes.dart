@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:insatgram_clone/models/my_post.dart';
@@ -62,6 +60,7 @@ class FirestoreMethodes {
             .doc(commentId)
             .set({
           'profilePic': profilePic,
+          'text': text,
           'name': name,
           "uid": uid,
           'commentId': commentId,

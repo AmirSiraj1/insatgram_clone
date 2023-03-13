@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insatgram_clone/utils/colors.dart';
 import 'package:insatgram_clone/widgets/follow_button.dart';
@@ -13,6 +14,10 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   var userData = {};
+  int postLen = 0;
+  int followers = 0;
+  int followings = 0;
+  bool isFollowing = false;
   @override
   void initState() {
     super.initState();
@@ -21,11 +26,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   getData() async {
     try {
-      var snap = await FirebaseFirestore.instance
+      var userSnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(widget.uid)
           .get();
-      userData = snap.data()!;
+      var postSnap = await FirebaseFirestore.instance
+          .collection('posts')
+          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      postLen = postSnap.docs.length;
+      followers = userSnap.data()!['followers'].length;
+      followings = userSnap.data()!['following'].length;
+      isFollowing = userSnap
+          .data()!['followers']
+          .contains(FirebaseAuth.instance.currentUser!.uid);
+      userData = userSnap.data()!;
       setState(() {});
     } catch (e) {
       rethrow;
@@ -61,20 +76,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              buldStatusColumn(20, "posts"),
-                              buldStatusColumn(120, "followers"),
-                              buldStatusColumn(10, "followings"),
+                              buldStatusColumn(postLen, "posts"),
+                              buldStatusColumn(followers, "followers"),
+                              buldStatusColumn(followings, "followings"),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              FollowButton(
-                                  function: () {},
-                                  backgroundColor: mobileBackgroundColor,
-                                  borderColor: Colors.grey,
-                                  text: "Edit Profile",
-                                  textColor: primaryColor),
+                              FirebaseAuth.instance.currentUser!.uid ==
+                                      widget.uid
+                                  ? FollowButton(
+                                      function: () {},
+                                      backgroundColor: mobileBackgroundColor,
+                                      borderColor: Colors.grey,
+                                      text: "Edit Profile",
+                                      textColor: primaryColor)
+                                  : isFollowing
+                                      ? FollowButton(
+                                          function: () {},
+                                          backgroundColor: Colors.white,
+                                          borderColor: Colors.grey,
+                                          text: "Unfollow",
+                                          textColor: Colors.black)
+                                      : FollowButton(
+                                          function: () {},
+                                          backgroundColor: primaryColor,
+                                          borderColor: primaryColor,
+                                          text: "Follow",
+                                          textColor: Colors.white),
                             ],
                           )
                         ],
@@ -85,16 +115,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(top: 15),
-                  child: const Text(
-                    'username',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Text(
+                    userData['username'],
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(top: 1),
-                  child: const Text(
-                    'some discriprtion...',
+                  child: Text(
+                    userData['bio'],
                   ),
                 ),
               ],

@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class FollowButton extends StatelessWidget {
   final Function()? function;
@@ -20,7 +17,7 @@ class FollowButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 28),
+      padding: const EdgeInsets.only(top: 2),
       child: TextButton(
         onPressed: function,
         child: Container(

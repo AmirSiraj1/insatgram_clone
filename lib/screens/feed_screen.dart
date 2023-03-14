@@ -35,6 +35,8 @@ class FeedScreen extends StatelessWidget {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            } else if (snapshot.connectionState == ConnectionState.none) {
+              return const Center(child: Text('connection Error...'));
             }
 
             return ListView.builder(

@@ -82,6 +82,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   );
                 }
                 return StaggeredGridView.countBuilder(
+                  itemCount: (snapshot.data! as dynamic).docs.length,
                   crossAxisCount: 3,
                   itemBuilder: (context, index) => Image.network(
                       (snapshot.data! as dynamic).docs[index]['postUrl']),

@@ -28,7 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
         title: TextFormField(
           controller: searchController,
           decoration: const InputDecoration(labelText: 'Search For User'),
-          onFieldSubmitted: (value) {
+          onChanged: (value) {
             setState(() {
               isShowUser = true;
             });
@@ -39,34 +39,39 @@ class _SearchScreenState extends State<SearchScreen> {
           ? FutureBuilder(
               future: FirebaseFirestore.instance
                   .collection('users')
-                  .where('username',
-                      isGreaterThanOrEqualTo: searchController.text)
+                  .where(
+                    'username',
+                    isGreaterThanOrEqualTo: searchController.text,
+                  )
                   .get(),
               builder: (context, snapshot) {
+                final List<QueryDocumentSnapshot<Map<String, dynamic>>>? data =
+                    snapshot.data?.docs;
                 if (!snapshot.hasData) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
                 return ListView.builder(
-                  itemCount: (snapshot.data! as dynamic).docs.length,
+                  itemCount: data!.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => ProfileScreen(
-                            uid: (snapshot.data! as dynamic).docs[index]['uid'],
+                            uid: data[index]['uid'],
                           ),
                         ),
                       ),
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              (snapshot.data! as dynamic).docs[index]
-                                  ['photoUrl']),
+                            data[index]['photoUrl'],
+                          ),
                         ),
-                        title: Text((snapshot.data! as dynamic).docs[index]
-                            ['username']),
+                        title: Text(
+                          data[index]['username'],
+                        ),
                       ),
                     );
                   },
@@ -88,8 +93,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       (snapshot.data! as dynamic).docs[index]['postUrl']),
                   staggeredTileBuilder: (index) => StaggeredTile.count(
                       (index % 7 == 0) ? 2 : 1, (index % 7 == 0) ? 2 : 1),
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 4,
+                  crossAxisSpacing: 4,
                 );
               },
             ),

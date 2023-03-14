@@ -8,6 +8,10 @@ import 'package:insatgram_clone/utils/colors.dart';
 import 'package:insatgram_clone/utils/utils.dart';
 import 'package:provider/provider.dart';
 
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
+
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
 
@@ -98,6 +102,15 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       _file = null;
     });
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout(),
+          ),
+        ),
+        (route) => false);
   }
 
   @override
